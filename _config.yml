@@ -6,14 +6,14 @@
 # `jekyll serve`. If you change this file, please restart the server process.
 
 # Site Settings
-locale                   : "en"
+locale                   : "zh-CN"
 title                    : "我的学习历程"
 title_separator          : "-"
 name                     : "粉碎音箱的音乐"
 description              : "和大家一起分享、学习"
-url                      : # the base hostname & protocol for your site e.g. "https://mmistakes.github.io"
+url                      : "https://danleechina.github.io"
 baseurl                  : # the subpath of your site, e.g. "/blog"
-repository               : # GitHub username/repo-name e.g. "mmistakes/minimal-mistakes"
+repository               : "danleechina/danleechina.github.io"
 teaser                   : # filename of teaser fallback teaser image placed in /images/, .e.g. "500x300.png"
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
@@ -89,7 +89,7 @@ author:
   flickr           :
   facebook         :
   foursquare       :
-  github           :
+  github           : "www.github.com/danleechina"
   google_plus      :
   keybase          :
   instagram        :
@@ -102,7 +102,7 @@ author:
   tumblr           :
   twitter          :
   vine             :
-  weibo            :
+  weibo            : "http://weibo.com/u/1172595722"
   xing             :
   youtube          :
 
@@ -227,3 +227,17 @@ compress_html:
   clippings: all
   ignore:
     envs: development
+
+
+defaults:
+  # _posts
+  - scope         :
+  path            : ""
+  type            : posts
+  values          :
+  layouts         : single
+  author_profile  : true
+  read_time       : true
+  comments        : true
+  share           : true
+  related         : true
