@@ -1,3 +1,9 @@
+---
+layout: single
+author_profile: true
+title: 关于 `-canOpenURL:` 和 `-openURL:` 的那些事
+---
+
 # 关于 `-canOpenURL:` 和 `-openURL:` 的那些事
 最近工作中需要知道用户的 iPhone 上都安装了哪些应用，所以查阅了一些资料。总的来说主要还是通过使用 Apple 提供的 `- canOpenURL:` API 来测试相应 APP 的 scheme 是否有效来实现。
 
