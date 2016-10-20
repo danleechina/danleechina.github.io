@@ -6,7 +6,7 @@ title: 将代码签名配置迁移到 Xcode 8
 
 >原文地址 [Migrating Code Signing Configurations to Xcode 8](https://pewpewthespells.com/blog/migrating_code_signing.html)
 >
-> 备注：本文使用 Google 翻译完成。修改了大概 10% 不完善的地方。同时使用 markdown 调整文章格式。
+> 备注：本文使用 Google 翻译完成。修改了大概 10% 不完善的地方。同时使用 markdown 调整文章格式。（不得不说 Google 翻译结果已经不是两三年前的水平，所以，这是我第一篇也是最后一篇翻译，严格来说也只是翻译了 10% 😄）
 
 这是 iOS 开发和部署的代码签名软件的指南。这里包含的信息可能有助于更好地理解代码签名的过程如何工作和实现，尤其是为那些构建必须由多个苹果开发者账号证书签署的应用程序和软件（例如：开发和企业）以及如何迁移您的现有的签名配置到 Xcode 8中工作。
 
