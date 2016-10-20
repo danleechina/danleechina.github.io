@@ -4,7 +4,6 @@ author_profile: true
 title: 关于 `-canOpenURL:` 和 `-openURL:` 的那些事
 ---
 
-# 关于 `-canOpenURL:` 和 `-openURL:` 的那些事
 最近工作中需要知道用户的 iPhone 上都安装了哪些应用，所以查阅了一些资料。总的来说主要还是通过使用 Apple 提供的 `- canOpenURL:` API 来测试相应 APP 的 scheme 是否有效来实现。
 
 ## 如何知道某个 APP 支持的所有 scheme
@@ -53,7 +52,9 @@ iOS9 上面出于对用户隐私的保护，开发人员不能像以前一样随
 关于私有 API 更多的介绍可以看这个 StackOverflow 回答 [What exactly is a private api and why will apple reject an ios app if one is us](http://stackoverflow.com/questions/17580251/what-exactly-is-a-private-api-and-why-will-apple-reject-an-ios-app-if-one-is-us)
 
 关于 Apple 是如果检测应用是否使用了私有 API可以看这里 [How does apple know you are using private api](http://stackoverflow.com/questions/2842357/how-does-apple-know-you-are-using-private-api)
+
 ## 参考资料
+
 * [App Programming Guide for iOS(Inter-App Communication)](https://developer.apple.com/library/ios/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/Inter-AppCommunication/Inter-AppCommunication.html#//apple_ref/doc/uid/TP40007072-CH6-SW2)
 * [ UIApplication Class Reference](https://developer.apple.com/library/ios/documentation/UIKit/Reference/UIApplication_Class/#//apple_ref/occ/instm/UIApplication/canOpenURL:)
 * [Querying URL Schemes with canOpenURL](http://useyourloaf.com/blog/querying-url-schemes-with-canopenurl/)
