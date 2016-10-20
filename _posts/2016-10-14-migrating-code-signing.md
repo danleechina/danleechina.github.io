@@ -5,8 +5,6 @@ title: 将代码签名配置迁移到 Xcode 8
 ---
 
 >原文地址 [Migrating Code Signing Configurations to Xcode 8](https://pewpewthespells.com/blog/migrating_code_signing.html)
->
-> 备注：本文使用 Google 翻译完成。修改了大概 10% 不完善的地方。同时使用 markdown 调整文章格式。（不得不说 Google 翻译结果已经不是两三年前的水平，所以，这是我第一篇也是最后一篇翻译，严格来说也只是翻译了 10% 😄）
 
 这是 iOS 开发和部署的代码签名软件的指南。这里包含的信息可能有助于更好地理解代码签名的过程如何工作和实现，尤其是为那些构建必须由多个苹果开发者账号证书签署的应用程序和软件（例如：开发和企业）以及如何迁移您的现有的签名配置到 Xcode 8中工作。
 
@@ -225,16 +223,16 @@ Provisioning Profiles 的目的是确保该种配置的安装是安全的，同�
 ***
 
 >现在我们将讨论如何基于构建配置来配置 Xcode 来签名应用程序，以及以前和以后的工作方式。对于这一部分，我将使用 xcodebuild 和 xcconfig 文件作为我大多数的例子，因为这也是我正在使用的方式。主要针对为企业和 App Store 分发的应用程序，以及如何修改您现有的方式以便在Xcode 8中工作。这还包含一些操作技巧，比如如何配置签名用于多个 Xcode 版本的构建。
-
+>
 >我将首先介绍关于处理 iOS 构建软件和签名身份管理的一些基本概要：
-
+>
 > 1. 任何开发人员都不应该访问签名身份的私钥和用于分发的签名证书。
 > 2. 在 CI 服务器上构建用于分发的应用程序（App Store 或 Enterprise），并提供给需要的用户。
 > 3. 应在 xcconfig 文件中指定构建设置。这是为了防止对 Xcode 的过度编辑。
 > 4. CI 服务器可以访问：
 	- Provisioning Profiles（描述文件） 我们自己托管我们自己的 Jenkins 实例，这使得管理构建的描述文件非常容易，因为我们可以直接访问文件系统以添加任何新的描述文件。如果您使用的是其他系统，则必须在 repo 中包含描述文件，或者使用其他方法确保它们可用于执行构建。
 	- 开发人员帐户 用于 Xcode 执行 Archive（存档）和导出 IPA 包操作，它可能需要访问开发帐户，以便它可以正确地签署以便上传。
-	
+>
 >这些点是本指南的剩余部分将要写到的;以统一方式执行构建，同时限制对开发帐户的签名凭证的访问。
 
 ***
@@ -342,7 +340,7 @@ Xcode 8引入了一种称为“automatic signing”的新方法。这是替代�
 
 ## <a name="build-for-develop-xcode8"></a>构建开发版本
 > 本节将讨论在使用新的自动签名方法的情况下配置 Xcode 项目的方式。这种方式被我用于我维护的所有项目，并且是我推荐的作为开发人员应该使用的方法。
-
+>
 > 不过，如果您使用手动签名方法，那么您的构建应该已经被正确的配置，并且工作起来应该没有问题。如果您要迁移到新的自动签名方法，那么您应该阅读本博客的其余部分。
 
 与以前配置代码签名的方法一样，设置开发构建将从构建配置和 scheme 开始。要确保开发构建已创建，您应该将 scheme 的操作（运行，测试，分析，Profile 和归档）配置为所有指向计划用于开发的同一构建配置。除此之外，`CODE_SIGN_IDENTITY` 要设置为“iPhone Developer”。这可能看起来不直观，却是应该采取的正确方法，以确保没有人会意外地修改 scheme 的预期设置。这相对于以前的为每个构建配置分配签名身份的方法有几个好处：
@@ -508,7 +506,7 @@ Xcode 8引入了一种称为“automatic signing”的新方法。这是替代�
 - `PROVISIONING_PROFILE`
 - `DEVELOPMENT_TEAM`
 
-##### `CODE_SIGN_IDENTITY`
+### `CODE_SIGN_IDENTITY`
 
 将采用不同属性的第一个变量是 `CODE_SIGN_IDENTITY`。在[Xcode 7及以前的签名机制](#sign-in-xcode7-prior) 节描述的配置风格中，此构建设置的值因使用的构建配置而异。这种行为在 Xcode 8中改变了，所以我们需要使用一个只在 Xcode 的主要版本之间不同的变量，`XCODE_VERSION_MAJOR`。
 
@@ -549,7 +547,7 @@ Xcode 8引入了一种称为“automatic signing”的新方法。这是替代�
 	
 这种基于环境条件在运行时解析构建设置的值的方法是 Xcode 构建系统本身用于许多常见构建设置的惯用方式。这是一个可靠的系统，以便将整个开发团队转换到新版本的 Xcode。
 
-##### `PROVISIONING_PROFILE`
+### `PROVISIONING_PROFILE`
 
 可以采取类似的方法来分配应当使用的描述文件（provisioning profile）的值。但是，这次我们在执行赋值时需要更加小心。由于描述文件仅在部署可执行二进制文件而不是任何可执行代码时使用，因此我们必须将描述文件的分配限制为仅应用程序 target。这可以通过为每个 target 创建多个 xcconfig 并使用不同的 xcconfig 文件来实现，但是我们更容易管理单个信息集而不是多个信息集。
 
@@ -591,7 +589,7 @@ Xcode 8引入了一种称为“automatic signing”的新方法。这是替代�
 	
 当此变量在构建中扩展时，对于不能为这两个值解析值的任何构建，我们将为 `PROVISIONING_PROFILE` 构建设置分配一个空值。这将导致它在构建时自动解决，这是 Xcode 8中所有类型构建和 Xcode 7中 Debug 构建配置的预期行为。
 
-#####`DEVELOPMENT_TEAM`
+###`DEVELOPMENT_TEAM`
 
 如前所述，`DEVELOPMENT_TEAM` 构建设置是 Xcode 8新引进的：这意味着它不需要有条件地为每个版本的 Xcode 设置，因为只有Xcode 8将使用它。分配给此构建设置的值将取决于您的具体情况。如果您只是为一个开发团队构建，那么您可以直接分配此值，如下所示：
 
@@ -609,7 +607,7 @@ Xcode 8引入了一种称为“automatic signing”的新方法。这是替代�
 
 此构建设置的值很重要， 因为在 Building， Deploying， 和 Archiving 时 Xcode 8会用到。
 
-#####`PROVISIONING_PROFILE_SPECIFIER`
+###`PROVISIONING_PROFILE_SPECIFIER`
 
 签名系统的最后一个组件是新的 `PROVISIONING_PROFILE_SPECIFIER` 构建设置。对于我们，它不需要设置为任何东西，因为自动签名将接管并为我们设置。这意味着您可以在 xcconfig 文件中定义它，以防止无意中修改该值：
 
@@ -617,7 +615,7 @@ Xcode 8引入了一种称为“automatic signing”的新方法。这是替代�
  `PROVISIONING_PROFILE_SPECIFIER` =
 ```
 
-##### 总结
+### 总结
 
 生成的 xcconfig 文件应如下所示：
 
