@@ -589,7 +589,7 @@ Xcode 8引入了一种称为“automatic signing”的新方法。这是替代�
 	
 当此变量在构建中扩展时，对于不能为这两个值解析值的任何构建，我们将为 `PROVISIONING_PROFILE` 构建设置分配一个空值。这将导致它在构建时自动解决，这是 Xcode 8中所有类型构建和 Xcode 7中 Debug 构建配置的预期行为。
 
-###`DEVELOPMENT_TEAM`
+### `DEVELOPMENT_TEAM`
 
 如前所述，`DEVELOPMENT_TEAM` 构建设置是 Xcode 8新引进的：这意味着它不需要有条件地为每个版本的 Xcode 设置，因为只有Xcode 8将使用它。分配给此构建设置的值将取决于您的具体情况。如果您只是为一个开发团队构建，那么您可以直接分配此值，如下所示：
 
@@ -607,7 +607,7 @@ Xcode 8引入了一种称为“automatic signing”的新方法。这是替代�
 
 此构建设置的值很重要， 因为在 Building， Deploying， 和 Archiving 时 Xcode 8会用到。
 
-###`PROVISIONING_PROFILE_SPECIFIER`
+### `PROVISIONING_PROFILE_SPECIFIER`
 
 签名系统的最后一个组件是新的 `PROVISIONING_PROFILE_SPECIFIER` 构建设置。对于我们，它不需要设置为任何东西，因为自动签名将接管并为我们设置。这意味着您可以在 xcconfig 文件中定义它，以防止无意中修改该值：
 
