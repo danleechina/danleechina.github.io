@@ -1,10 +1,9 @@
 ---
 layout: single
 author_profile: true
-title: 将代码签名配置迁移到 Xcode 8
+title: 从事 iOS 一周年
 ---
 
-# 从事 iOS 一周年
 
 嗯，去年的11月17号，我入职上一家公司，开始从事 iOS 开发的工作。所以我已经从事 iOS 开发整整一年了。总结一下这一年吧。
 
