@@ -9,11 +9,12 @@ title: 后台定期获取设备地理位置信息
 
 系统约束条件：后台运行时候，`APP` 无法在任意时间，任何情况下去获取定位信息。后台获取定位信息的时间、频率都是不确定的。下面所有提到的时间其实都是最理想的情况下。
 
-主要有一下几种方法：
+主要有一下几种方法（个人认为最好的方法是第四个）：
 
 1. [`SCL`（significant change location）](#scl)
 2. [`Background App Refresh` 后台应用刷新](#bar)
 3. [`Background Fetch Mode` 定期刷新数据](#bfm)
+4. [`Slient Push` 静默推送](#sp)
 
 每种方法都有各自的特点和缺点。只有用户开启了定位服务，才有方法可以在后台获取地理位置信息（`iOS 7` 及以前的设备还需要开启后台应用刷新，`iOS 8` 以后的设备不需要）。下面的有些方法使用的 `API` 要么是专门为定位服务设计的，要么官方用途是另外一些场景，只是被我们委婉的用于获取定位数据。
 
@@ -86,3 +87,20 @@ title: 后台定期获取设备地理位置信息
 
 1. [iOS periodic background location updates which depends not only on significant location change](http://stackoverflow.com/questions/32684584/ios-periodic-background-location-updates-which-depends-not-only-on-significant-l)
 2. [Fetching Small Amounts of Content Opportunistically](https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html#//apple_ref/doc/uid/TP40007072-CH4-SW56)
+
+
+## <a name="sp"></a>`Slient Push` 静默推送
+
+iOS 7上，苹果引入了新的一种推送，静默推送。服务器可以推送消息给设备，不会让用户发觉，同时又能让系统唤醒应用，执行定位以及上传定位信息。
+
+条件：需要开启定位权限（始终或者当使用应用），后台应用刷新权限
+
+缺点：不能频繁推送（不过一小时个位数的推应该没问题）
+
+适用环境：用户手动点击 `Home` 键退出、被系统挂起
+
+不适用环境：双击 `Home` 键强制退出，以及被系统终止
+
+参考：
+
+1. [Using Push Notifications to Initiate a Download](https://developer.apple.com/library/content/documentation/iPhone/Conceptual/iPhoneOSProgrammingGuide/BackgroundExecution/BackgroundExecution.html#//apple_ref/doc/uid/TP40007072-CH4-SW57)
