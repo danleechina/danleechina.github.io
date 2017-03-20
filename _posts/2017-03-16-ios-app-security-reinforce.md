@@ -25,7 +25,7 @@ $ DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /path/to/XXX.app/XXX
     -Wl,-sectcreate,__RESTRICT,__restrict,/dev/null
     ``` 
     
-    添加到 "Other Linker Flags"
+    添加到 "Other Linker Flags"（注意这里我在项目中碰到了一个 问题，在 iPod touch iOS 9.3 的设备上，使用了 swift 的项目会导致莫名奇妙的 swift 标准库无法找到，而在 iOS 10 的设备上没有这个问题。之前并没有以为是因为添加了这个的原因，直到网上搜了所有解决方案，比如这个 [SO Post](http://stackoverflow.com/questions/26024100/dyld-library-not-loaded-rpath-libswiftcore-dylib) 都没有效果的时候，我才发现是这个设置的原因）
 
 2. setuid 和 setgid （Apple 不接受调用这两个函数的 app，但是可能可以在越狱设备上调用，然后通过审核？本人未测试，这点存疑）
 
