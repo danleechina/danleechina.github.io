@@ -27,7 +27,7 @@ $ DYLD_INSERT_LIBRARIES=dumpdecrypted.dylib /path/to/XXX.app/XXX
     
     添加到 "Other Linker Flags"（注意这里我在项目中碰到了一个 问题，在 iPod touch iOS 9.3 的设备上，使用了 swift 的项目会导致莫名奇妙的 swift 标准库无法找到，而在 iOS 10 的设备上没有这个问题。之前并没有以为是因为添加了这个的原因，直到网上搜了所有解决方案，比如这个 [SO Post](http://stackoverflow.com/questions/26024100/dyld-library-not-loaded-rpath-libswiftcore-dylib) 都没有效果的时候，我才发现是这个设置的原因）
 
-2. setuid 和 setgid （Apple 不接受调用这两个函数的 app，但是可能可以在越狱设备上调用，然后通过审核？本人未测试，这点存疑）
+2. setuid 和 setgid （Apple 不接受调用这两个函数的 app，因为它可以通过查看符号表来判断您的二进制运行文件是否包含这两个函数）
 
 具体原理可以查看参考资料1，2
 
@@ -100,7 +100,7 @@ static __inline__ __attribute__((always_inline)) int anti_tweak()
 1. 简单，开发人员可以硬编码明文字符串，所有的加密会在编译开始时自动处理
 2. 可以自定义加密或者混淆方式，（为了不影响 app 运行效率，需要提供一个简单快速的加密或混淆方式）提高解密难度
 
-后面有时间我会开源出来。
+项目地址 [MixPlainText](https://github.com/danleechina/mixplaintext)
 
 ## 使用 Swift 开发
 
@@ -137,6 +137,29 @@ Swift 是目前比较新的开发 iOS 语言，由于 Swift 目前还不是很�
 对于第二种，目前有一些自动化工具，比如念茜提到的一个工具参见参考资料7。
 
 个人认为最好的一个加密混淆工具是 [ios-class-guard](https://github.com/Polidea/ios-class-guard)，不过目前这个项目已经停止维护了。但是这种方式的混淆我觉得才是最终极的方案。
+
+## 其他方法
+
+比如 ptrace 反调试等（不过据说已经可以很容易被绕过）
+
+```
+// see http://iphonedevwiki.net/index.php/Crack_prevention for detail
+static force_inline void disable_gdb() {
+#ifndef DEBUG
+    typedef int (*ptrace_ptr_t)(int _request, pid_t _pid, caddr_t _addr, int _data);
+#ifndef PT_DENY_ATTACH
+#define PT_DENY_ATTACH 31
+#endif
+    // this trick can be worked around,
+    // see http://stackoverflow.com/questions/7034321/implementing-the-pt-deny-attach-anti-piracy-code
+    void* handle = dlopen(0, RTLD_GLOBAL | RTLD_NOW);
+    ptrace_ptr_t ptrace_ptr = dlsym(handle, [@"".p.t.r.a.c.e UTF8String]);
+    ptrace_ptr(PT_DENY_ATTACH, 0, 0, 0);
+    dlclose(handle);
+#endif
+}
+```
+
 
 ## 注意事项
 
