@@ -81,6 +81,7 @@ static __inline__ __attribute__((always_inline)) int anti_tweak()
     // debug 版本的包仍然能够正常抓包
     self = [super initWithBaseURL:serverHost.baseURL];
 #else
+// 由于使用 ephemeralSessionConfiguration session 发起的请求不带 cookie 和使用缓存等
     NSURLSessionConfiguration *conf = [NSURLSessionConfiguration ephemeralSessionConfiguration];
     conf.connectionProxyDictionary = @{};
     self = [super initWithBaseURL:serverHost.baseURL sessionConfiguration:conf];
