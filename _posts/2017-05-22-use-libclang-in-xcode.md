@@ -8,10 +8,11 @@ title: 使用 libclang 实现 iOS 代码中的明文加密
 
 之前写过一个小工具 [MixPlainText](https://github.com/danleechina/mixplaintext)，可以将 Xcode 工程代码中所有的明文加密。原理是使用正则表达式来提取代码中所有的明文。现在介绍一种新的更加完善、更有拓展性的方法。用到的工具主要是 `libclang`。
 
+这里我已经将所有代码、配置上传到 GitHub 了，所以有兴趣也可以直接下载代码查看，地址 [UsingLibClang](https://github.com/danleechina/UsingLibClang)
+
 # 配置 Xcode 工程
 
 由于我是用 C 语言来调用 `libclang` 的。所以这里介绍一下怎么配置 Xcode 工程来使用这个库。当然你也可以用 Python 来使用这个库，具体方式可以看这个文章 [Parsing C++ in Python with Clang](http://eli.thegreenplace.net/2011/07/03/parsing-c-in-python-with-clang)
-
 
 1. 去 [http://llvm.org/svn/llvm-project/cfe/trunk/include/clang-c/](http://llvm.org/svn/llvm-project/cfe/trunk/include/clang-c/)  下载所有头文件。
 1. 工程中添加上面下载的头文件
